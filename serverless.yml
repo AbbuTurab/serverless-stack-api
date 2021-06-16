@@ -75,7 +75,9 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:DescribeTable
       Resource: 'arn:aws:dynamodb:ap-south-1:455540704641:table/notes'
+
 functions:
+
   # Defines an HTTP API endpoint that calls the main function in create.js
   # - path: url path is /notes
   # - method: POST request
@@ -85,6 +87,7 @@ functions:
       - http:
           path: notes
           method: post
+          cors: true
           authorizer: aws_iam
   get:
     handler: get.main
@@ -92,6 +95,7 @@ functions:
       - http:
           path: notes/{id}
           method: get
+          cors: true
           authorizer: aws_iam
   list:
     handler: list.main
@@ -99,12 +103,15 @@ functions:
       - http:
           path: notes
           method: get
+          cors: true
+          authorizer: aws_iam
   update:
     handler: update.main
     events:
       - http:
           path: notes/{id}
           method: put
+          cors: true
           authorizer: aws_iam
   delete:
     handler: delete.main
@@ -112,6 +119,7 @@ functions:
       - http:
           path: notes/{id}
           method: delete
+          cors: true
           authorizer: aws_iam
   billing:
     handler: billing.main
@@ -119,4 +127,11 @@ functions:
       - http:
           path: billing
           method: post
+          cors: true
           authorizer: aws_iam
+
+# Create our resources with separate CloudFormation templates
+resources:
+  # API Gateway Errors
+  - ${file(resources/api-gateway-errors.yml)}        
+  
