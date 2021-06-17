@@ -53,7 +53,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: prod
+  stage: dev
   region: ap-south-1
   # These environment variables are made available to our functions
   # under process.env.
